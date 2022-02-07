@@ -1,4 +1,4 @@
-package login;
+package main;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -12,19 +12,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import login.UserDAO;
 
 /**
- * Servlet implementation class LoginController
+ * Servlet implementation class MainController
  */
-@WebServlet("/LoginController")
-public class LoginController extends HttpServlet {
+@WebServlet("/MainController")
+public class MainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
 	
 	private UserDAO dao;
 	private ServletContext ctx;
 	
-	private final String START_PAGE = "pages/sign-in.jsp";
-//	private final String START_PAGE = "index.jsp";
+	private final String START_PAGE = "index.jsp";
+
       
 	
 	public void init(ServletConfig config) throws ServletException {
@@ -74,30 +76,7 @@ public class LoginController extends HttpServlet {
 		}
 	}
 	
-	
-	public String startPage(HttpServletRequest request) {
-		return START_PAGE;
-	}
-	
-	public String signIn(HttpServletRequest request) {
-		//redirect:/SnsController?action=snsList
-		//로그인 확인 후  index.js 이
-//		return "index.jsp";
-		return "redirect:/LoginController?action=main";
-	}
-	
-	public String signUp(HttpServletRequest request) {
-		//redirect:/SnsController?action=snsList
-		//회원가입 완료 후 
-		
-//		return START_PAGE;
-		return "redirect:/LoginController";
-	}
-	
-	public String main(HttpServletRequest request) {
-		return "redirect:/MainController";
-	}
-	
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
