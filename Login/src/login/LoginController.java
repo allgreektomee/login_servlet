@@ -2,6 +2,7 @@ package login;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -11,6 +12,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.beanutils.BeanUtils;
+
 
 
 /**
@@ -25,12 +30,13 @@ public class LoginController extends HttpServlet {
 	
 	private final String START_PAGE = "pages/sign-in.jsp";
 //	private final String START_PAGE = "index.jsp";
-      
+
 	
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		dao = new UserDAO();
 		ctx = getServletContext();		
+		
 	}
 	
 	
@@ -39,13 +45,14 @@ public class LoginController extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String action = request.getParameter("action");
 		
+		
 		dao = new UserDAO();
 		
 		Method m;
 		String view = null;
 		
 		if (action == null) {
-			action = START_PAGE;
+			action = "startPage";
 		}
 		
 		try {
@@ -79,10 +86,17 @@ public class LoginController extends HttpServlet {
 		return START_PAGE;
 	}
 	
+
+	
+	/*  
+	 *  1.JSP 연결 
+	 
 	public String signIn(HttpServletRequest request) {
 		//redirect:/SnsController?action=snsList
 		//로그인 확인 후  index.js 이
 //		return "index.jsp";
+		
+		
 		return "redirect:/LoginController?action=main";
 	}
 	
@@ -93,9 +107,60 @@ public class LoginController extends HttpServlet {
 //		return START_PAGE;
 		return "redirect:/LoginController";
 	}
+	*/
+	
+	// 2.DB 연동 
+	public String signUp(HttpServletRequest request) {
+		//
+		User u = new User();
+		try {						
+			// 이미지 파일 저장
+//	        Part part = request.getPart("file");
+//	        String fileName = getFilename(part);
+//	        if(fileName != null && !fileName.isEmpty()){
+//	            part.write(fileName);
+//	        }	        
+			
+	        // 입력값을 User 객체로 매핑
+			BeanUtils.populate(u, request.getParameterMap());
+			
+	        // 이미지 파일 이름을 sns 객체에도 저장
+//	        n.setImg("/img/"+fileName);
+	
+			dao.signUp(u);
+			request.setAttribute("result", "signUp 성공 ");
+		} catch (Exception e) {
+			e.printStackTrace();
+			ctx.log("addPost 오류 ");
+			request.setAttribute("result", "signUp 오류 ");
+			return startPage(request);
+		}
+		return "redirect:/LoginController";
+	}
+	
+	public String signIn(HttpServletRequest request)  {
+		String userId = request.getParameter("userId");
+		String userPw = request.getParameter("userPW");
+		
+        try {
+			User u = dao.signIn(userId, userPw);
+			request.setAttribute("user", u);
+			HttpSession session = request.getSession();
+			session.setAttribute("id", u.getUserId());
+			session.setAttribute("pw", u.getUserPW());
+			session.setAttribute("name", u.getUserName());
+			return "index.jsp";
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ctx.log("signIn error ");
+			request.setAttribute("error", "로그인 실패 id pw를 확인하세요. ");
+			return startPage(request);
+		}
+	}
 	
 	public String main(HttpServletRequest request) {
-		return "redirect:/MainController";
+		return signIn(request);
 	}
 	
 	/**

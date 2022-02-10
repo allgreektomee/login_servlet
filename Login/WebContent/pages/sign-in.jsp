@@ -31,6 +31,7 @@
   <main class="main-content  mt-0">
     <div class="page-header align-items-start min-vh-100" style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');">
       <span class="mask bg-gradient-dark opacity-6"></span>
+      
       <div class="container my-auto">
         <div class="row">
           <div class="col-lg-4 col-md-8 col-12 mx-auto">
@@ -59,14 +60,14 @@
               </div>
               <div class="card-body">
               
-                <form role="form" method="post" action="/Login/LoginController?action=signIn"  class="text-start">
+                <form role="form" method="post" action="/Login/LoginController?action=main"  class="text-start">
                   <div class="input-group input-group-outline my-3">
                     <label class="form-label">ID</label>
-                    <input type="text" name="uid" class="form-control">
+                    <input type="text" name="userId" class="form-control">
                   </div>
                   <div class="input-group input-group-outline mb-3">
                     <label class="form-label">Password</label>
-                    <input type="password" name="upw" class="form-control">
+                    <input type="password" name="userPW" class="form-control">
                   </div>
                   <div class="text-center">
                     <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
@@ -77,6 +78,11 @@
                   </p>
                 </form>
                 
+                 <c:if test="${error != null}">
+                 <p class="mt-4 text-sm text-center error1">
+                 	 ${error}
+                 </p>
+		  		</c:if>
               </div>
             </div>
           </div>

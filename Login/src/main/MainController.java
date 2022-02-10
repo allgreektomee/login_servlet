@@ -2,6 +2,7 @@ package main;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -12,7 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import login.User;
 import login.UserDAO;
+
 
 /**
  * Servlet implementation class MainController
@@ -40,14 +43,13 @@ public class MainController extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String action = request.getParameter("action");
-		
 		dao = new UserDAO();
 		
 		Method m;
 		String view = null;
 		
 		if (action == null) {
-			action = START_PAGE;
+			action = "startPage";
 		}
 		
 		try {
@@ -76,6 +78,24 @@ public class MainController extends HttpServlet {
 		}
 	}
 	
+	public String main(HttpServletRequest request) {
+		
+		
+		return START_PAGE;
+	}
+	
+	public String userList(HttpServletRequest request) {
+    	List<User> list;
+		try {
+			list = dao.getAllUser();
+	    	request.setAttribute("userList", list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			ctx.log("SnsList error");
+			request.setAttribute("error", "오류발생 목록 조회 실패");
+		}
+    	return "pages/table.jsp";
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

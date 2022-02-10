@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 public class UserDAO {
@@ -26,11 +28,11 @@ public class UserDAO {
 		return conn;
 	}
 	
-	public void signUp(User u) throws Exception {
+	public void signUp(User u) throws SQLException  {
 		//회원가입  
 		Connection conn = open();
 //		Insert into  MEMBER (userid, userpw, username) values('admin','1234','관리자')
-		String sql = "insert into sns(userid,userpw,username) values(?,?,?)";
+		String sql = "insert into MEMBER(userid,userpw,username) values(?,?,?)";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 	
 		
@@ -38,12 +40,17 @@ public class UserDAO {
 			pstmt.setString(1, u.getUserId() );
 			pstmt.setString(2, u.getUserPW() );
 			pstmt.setString(3, u.getUserName() );
-			pstmt.executeUpdate();
+			
+			if(pstmt.executeUpdate() == 0) {
+				throw new SQLException("DB 오류");
+			}else {
+				pstmt.executeUpdate();
+			}
 		}
 		
 	}
 	
-	public User signIn(String userId, String userPw) throws Exception {
+	public User signIn(String userId, String userPw) throws SQLException  {
 		//로그인 
 		Connection conn = open();
 		
@@ -68,13 +75,13 @@ public class UserDAO {
 		}
 	}
 	
-	public List<User> getAllPost() throws Exception {
-		//회원 전체목록  
+
+	public List<User> getAllUser() throws Exception {
 		Connection conn = open();
 		List<User> newsList = new ArrayList<>();
 		
-//		
-		String sql = "SELECT * FROM MEMBER ";
+
+		String sql = "select * from MEMBER";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		
@@ -90,6 +97,7 @@ public class UserDAO {
 			return newsList;			
 		}
 	}
+
 }
 
 /*

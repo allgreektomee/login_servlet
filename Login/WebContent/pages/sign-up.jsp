@@ -24,7 +24,14 @@
 </head>
 
 <body class="">
-  
+<nav class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4 alert alert-danger alert-dismissible fade show">
+	<c:if test="${result != null}">
+		<div  class="container-fluid ps-2 pe-0">
+				 ${result}
+			<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+		</div>
+	</c:if>
+</nav>
   <main class="main-content  mt-0">
     <section>
       <div class="page-header min-vh-100">
@@ -44,15 +51,15 @@
                   <form role="form" method="post" action="/Login/LoginController?action=signUp" >
                     <div class="input-group input-group-outline mb-3">
                       <label class="form-label">Name</label>
-                      <input type="text" name="uname" class="form-control">
+                      <input type="text" name="userName" class="form-control">
                     </div>
                     <div class="input-group input-group-outline mb-3">
                       <label class="form-label">ID</label>
-                      <input type="text" name="uid" class="form-control">
+                      <input type="text" name="userId" class="form-control">
                     </div>
                     <div class="input-group input-group-outline mb-3">
                       <label class="form-label">Password</label>
-                      <input type="password" name="upw" class="form-control">
+                      <input type="password" name="userPW" class="form-control">
                     </div>
                     <div class="form-check form-check-info text-start ps-0">
                       <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>

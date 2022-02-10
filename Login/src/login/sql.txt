@@ -1,0 +1,13 @@
+Create table Member(
+	id INT NOT NULL AUTO_INCREMENT,
+	userid VARCHAR NOT NULL  PRIMARY KEY,
+	userpw VARCHAR NOT NULL,
+	username VARCHAR NOT NULL
+)
+
+SELECT * FROM MEMBER 
+
+Insert into  MEMBER (userid, userpw, username) values('admin','1234','관리자')
+
+SELECT * FROM MEMBER where userid = 'admin' and userpw = '1234'
+
