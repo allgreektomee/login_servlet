@@ -268,13 +268,13 @@
                   	<c:forEach var="user" items="${userList}" varStatus="status">
                   	 <tr>
 		                  <td>
-		                       <div class="d-flex px-2 py-1">
-	                          <div>
-                              <img src="${pageContext.request.contextPath}/assets/img/team-2.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-                              </div>
-                          	  <div class="d-flex flex-column justify-content-center">
-                          	  <h6 class="mb-0 text-sm">${user.userId}</h6>
-                          	  <p class="text-xs text-secondary mb-0"></p>
+		                    <div class="d-flex px-2 py-1">
+		                      <div>
+	                              <img src="${pageContext.request.contextPath}/assets/img/team-2.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+	                          </div>
+	                          <div class="d-flex flex-column justify-content-center">
+	                          	  <h6 class="mb-0 text-sm">${user.userId}</h6>
+	                          	  <p class="text-xs text-secondary mb-0"></p>
                         	  </div>
                         	</div>
 	                      </td>
@@ -286,7 +286,6 @@
                        		 <span class="badge badge-sm bg-gradient-success">${user.userName}</span>
                       	  </td>
                       </tr>
-						  
 					</c:forEach> 
                   </tbody>
                 </table>
